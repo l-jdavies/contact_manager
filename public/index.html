@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Contact Manager</title>
+  <script src="./javascripts/handlebars.js"></script>
+  <link href="stylesheets/app.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header>
+    <a href="#home">
+      <h1>Contact Manager</h1>
+    </a>
+    <p>Using Backbone.js, Localstorage, RequireJS, Handlebar and Bootstrap</p>
+  </header>
+  <main>
+    <div class="modal">
+      <div class="modal-content">
+        <p>Are you sure you want to delete this todo?</p>
+        <button id="yes_button">Yes</button>
+        <button id="no_button">No</button>
+      </div>
+    </div>
+    <div id="error" class="message"></div>
+    <div id="create_contact_form"></div>
+    <div id="edit_contact_form"></div>
+    <div id="search"></div>
+    <div id="display_no_contacts"></div>
+    <div id="display_contacts"></div>
+    <div id="no_results"></div>
+  </main>
+  <script type="module" src="javascripts/app.js"></script>
+  <script id="addSearchTemplate" type="text/x-handlebars">
+    <div class="container dropdown">
+      <button class="add_contact_btn">Add Contact</button>
+      <input type="text" name="search" placeholder="Name">
+        <label for="tags">Search by tag:</label>
+        <select name="tags" id="list_tags">
+          <option value="" disabled selected>Choose a tag</option>
+          <option value="all">all tags</option>
+          {{#each option}}
+          <option value="{{this}}">{{this}}</option>
+          {{/each}}
+        </select>
+      <button id="display_all_contacts">Display All</button>
+    </div>
+  </script>
+  <script id="noCurrentContacts" type="text/x-handlebars">
+    <div class="container no_contacts">
+      <h2>There are no current contacts.</h2>
+      <button class="add_contact_btn">Add Contact</button>
+    </div>
+  </script>
+  <script id="noSearchResults" type="text/x-handlebars">
+    <div class="container">
+      <h2>There are no contacts matching that criteria.</h2>
+      <button class="add_contact_btn">Add Contact</button>
+    </div>
+  </script>
+  <script id="addContact" type="text/x-handlebars">
+    <div class="add_contact display">
+      <form novalidate action="#" method="POST">
+      <h2>New Contact</h2>
+        <ul class="form_list">
+          <li>
+            <label for="full_name">Full Name</label>
+            <input type="text" id="full_name" required/>
+            <span class="message"></span>
+          </li>
+          <li>
+            <label for="email">Email Address</label>
+            <input type="text" id="email" pattern=".+@.+" placeholder="name@example.com" required/>
+            <span class="message"></span>
+          </li>
+          <li>
+            <label for="phone_number">Phone number</label>
+            <input type="text" id="phone_number" pattern="\d{10}" placeholder="1112223333" required/>
+            <span class="message"></span>
+          </li>
+          <li>
+            <label for="tags">Create new tags (separate multiple tags with a comma)</label>
+            <input type="text" id="tags" placeholder="work, admin, sports"/>
+            <span class="message"></span>
+          </li>
+          <li>
+            <label for="select_tags">Select tags</label>
+            <select name="select_tags" class="select_tags" multiple size="4">
+              {{#each option}}
+              <option value="{{this}}">{{this}}</option>
+              {{/each}}
+            </select>
+          </li>
+        </ul>
+        <span class="form message"></span>
+        <button id="submit_new_contact" type="submit">Submit</button><button id="cancel_new_contact">Cancel</button>
+      </form>
+    </div>
+  </script>
+  <script id="editContact" type="text/x-handlebars">
+    <div class="add_contact display">
+      <form novalidate action="#" method="POST">
+      <h2>Edit Contact</h2>
+        <ul class="form_list">
+          <li>
+            <label for="full_name">Full Name</label>
+            <input type="text" id="full_name" value="{{full_name}}" required/>
+            <span class="message"></span>
+          </li>
+          <li>
+            <label for="email">Email Address</label>
+            <input type="text" id="email" pattern=".+@.+" value="{{email}}" required/>
+            <span class="message"></span>
+          </li>
+          <li>
+            <label for="phone_number">Phone number</label>
+            <input type="text" id="phone_number" pattern="\d{10}" value="{{phone_number}}" required/>
+            <span class="message"></span>
+          </li>
+          <li>
+            <label for="tags">Create new tags (separate multiple tags with a comma)</label>
+            <input type="text" id="tags" value="{{tags}}"/>
+            <span class="message"></span>
+          </li>
+          <li>
+            <label for="select_tags">Select tags</label>
+            <select name="select_tags" class="select_tags" multiple size="4">
+              {{#each option}}
+              <option value="{{this}}">{{this}}</option>
+              {{/each}}
+            </select>
+          </li>
+
+        </ul>
+        <span class="form message"></span>
+        <button id="edit_contact" type="submit">Submit</button><button id="cancel_edit">Cancel</button>
+      </form>
+    </div>
+  </script>
+  <script id="displayContact" type="text/x-handlebars">
+    <div class="contact_details" data-id={{id}}>
+    <h3>{{full_name}}</h3>
+    <p class="label">Phone Number:</p>
+    <p>{{phone_number}}</p>
+    <p class="label">Email:</p>
+    <p>{{email}}</p>
+    <p class="label">Tags:</p>
+    <p>{{tags}}</p>
+    <button class="small_button" id="edit_contact">Edit</button>
+    <button class="small_button" id="delete_contact">Delete</button>
+  </div>
+</script>
+
+</body>
+
+</html>
